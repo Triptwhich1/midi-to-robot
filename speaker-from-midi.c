@@ -35,13 +35,15 @@ struct Note *read_from_output()
     return notes;
 }
 
-int play_sound() {
+int play_sound()
+{
     struct Note *notes = read_from_output();
     int note_count = 0;
     printf("freq = {");
     while (notes[note_count].frequency != 0 && notes[note_count].time != 0)
     {
-        if (note_count > 0) {
+        if (note_count > 0)
+        {
             printf(", ");
         }
         printf("%d", notes[note_count].frequency);
@@ -53,7 +55,8 @@ int play_sound() {
     printf("time = {");
     while (notes[note_count].frequency != 0 && notes[note_count].time != 0)
     {
-        if (note_count > 0) {
+        if (note_count > 0)
+        {
             printf(", ");
         }
         printf("%d", notes[note_count].time);
@@ -63,6 +66,7 @@ int play_sound() {
     free(notes);
 }
 
-int main() {
+int main()
+{
     play_sound();
 }
