@@ -1,8 +1,12 @@
+# This file works together with the speaker-from-midi.c file although in its current state there really isn't
+# any need for that. When I am more familiar with the robots functionality there will be a need for it.
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import mido
 import os
 
+# note frequencies A0 - C8
 frequencies = [
     27, 29, 31,
     33, 35, 37, 39, 41, 44, 46, 49, 52, 55, 58, 62,
@@ -16,14 +20,14 @@ frequencies = [
 ]
 
 
-def get_midi_file():
+def get_midi_file(): # asks the user to get a midi they would like to convert
     messagebox.showinfo("Midi to Notes", "Choose a MIDI file to convert")
     file = filedialog.askopenfilename(title='MIDI file selection', filetypes=[('MID files', '*.mid')])
     if not file:
         return None
     return file
 
-def main():
+def main(): # write the note time and frequency to an output file.
     midi_file_path = get_midi_file()
     if not midi_file_path:
         return
@@ -39,11 +43,12 @@ def main():
                 time = msg.time
                 with open(f'output.txt', 'a') as f:
                     f.write(f'{frequencies[note]};{time}\n')
+        break;
                     
 
-if __name__ == "__main__":
+if __name__ == "__main__": # runs application
     root = tk.Tk()
-    root.withdraw()  # Hide the root window
+    root.withdraw()  # hide the root window
     main()
 
 
