@@ -70,5 +70,3 @@ instance/
 
 output.txt
 # CMake
-cmake-build-debug
-.idea
