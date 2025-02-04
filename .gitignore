@@ -69,3 +69,6 @@ instance/
 # Sphinx documentation
 
 output.txt
+# CMake
+cmake-build-debug
+.idea
