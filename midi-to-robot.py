@@ -28,6 +28,7 @@ def get_midi_file(): # asks the user to get a midi they would like to convert
     return file
 
 def main(): # write the note time and frequency to an output file.
+    current_tempo = 500000 # 120 bpm
     midi_file_path = get_midi_file()
     if not midi_file_path:
         return
@@ -35,14 +36,17 @@ def main(): # write the note time and frequency to an output file.
     midi_file = mido.MidiFile(midi_file_path)
     if os.path.exists('output.txt'):
         os.remove('output.txt')
+    ticks_per_beat = midi_file.ticks_per_beat
     for track in midi_file.tracks:
         print(f'Track: {track.name}')
         for msg in track:
+            if msg.type == 'set_tempo':
+                current_tempo = msg.tempo
             if msg.type == 'note_on':
+                delta_time_ms = int(mido.tick2second(msg.time, ticks_per_beat, current_tempo) * 1000)
                 note = (msg.note-21)
-                time = msg.time
                 with open(f'output.txt', 'a') as f:
-                    f.write(f'{frequencies[note]};{time}\n')
+                    f.write(f'{frequencies[note]};{delta_time_ms}\n')
         break;
                     
 
