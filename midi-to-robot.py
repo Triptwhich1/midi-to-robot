@@ -8,7 +8,7 @@ import os
 
 # note frequencies A0 - C8
 frequencies = [
-    27, 29, 31,
+    0, 27, 29, 31,
     33, 35, 37, 39, 41, 44, 46, 49, 52, 55, 58, 62,
     65, 69, 73, 78, 82, 87, 92, 98, 104, 110, 117, 123,
     131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247,
@@ -42,9 +42,12 @@ def main(): # write the note time and frequency to an output file.
         for msg in track:
             if msg.type == 'set_tempo':
                 current_tempo = msg.tempo
-            if msg.type == 'note_on':
-                delta_time_ms = int(mido.tick2second(msg.time, ticks_per_beat, current_tempo) * 1000)
-                note = (msg.note-21)
+            if msg.type == 'note_on' or msg.type == 'note_off':
+                delta_time_ms = int(mido.tick2second(msg.time, ticks_per_beat, current_tempo) * 100) # gets ticks to miliseconds using ticks, ticker-per-beat and the current bpm
+                note = (msg.note-22)
+                if msg.type == 'note_off':
+                    note = 0;
+                    delta_time_ms = 1;
                 with open(f'output.txt', 'a') as f:
                     f.write(f'{frequencies[note]};{delta_time_ms}\n')
         break;
